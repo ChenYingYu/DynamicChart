@@ -11,7 +11,12 @@ import UIKit
 class ChartView: UIView {
     
     let mainColor = UIColor.blue
-
+    let xRatio: CGFloat = 0.3
+    let xPos = self.bounds.maxX * xRatio
+    let yRatio: CGFloat = 0.7
+    let yPos = self.bounds.maxY * (1 - yRatio)
+    let vertex = CGPoint(x: xPos, y: yPos)
+    
     func drawChart() {
         drawLines()
         drawSteps()
@@ -19,15 +24,23 @@ class ChartView: UIView {
     
     func drawLines() {
         
-        let baseLine: CAShapeLayer = drawLineFromPont(fromPoint: CGPoint(x: 0, y: self.bounds.maxY), toPoint: CGPoint(x: self.bounds.maxX, y: self.bounds.maxY), color: mainColor, width: 1.0, alpha: 1.0)
+        let baseLineStartPoint = CGPoint(x: 0, y: self.bounds.maxY)
+        let baseLineEndPoint = CGPoint(x: self.bounds.maxX, y: self.bounds.maxY)
+        let xRatio: CGFloat = 0.3
+        let xPos = self.bounds.maxX * xRatio
+        let yRatio: CGFloat = 0.7
+        let yPos = self.bounds.maxY * (1 - yRatio)
+        let vertex = CGPoint(x: xPos, y: yPos)
         
-        let verticalLine: CAShapeLayer = drawLineFromPont(fromPoint: CGPoint(x: self.bounds.maxX, y: 0), toPoint: CGPoint(x: self.bounds.maxX, y: self.bounds.maxY), color: mainColor, width: 1.0, alpha: 1.0)
+        let baseLine: CAShapeLayer = drawLineFromPont(fromPoint: baseLineStartPoint, toPoint: baseLineEndPoint, color: mainColor, width: 1.0, alpha: 1.0)
         
-        let hypotenuse: CAShapeLayer = drawLineFromPont(fromPoint: CGPoint(x: 0, y: self.bounds.maxY), toPoint: CGPoint(x: self.bounds.maxX, y: 0), color: mainColor, width: 1.0, alpha: 1.0)
+        let lineFromStart: CAShapeLayer = drawLineFromPont(fromPoint: baseLineStartPoint, toPoint: vertex, color: mainColor, width: 1.0, alpha: 1.0)
+        
+        let lineToEnd: CAShapeLayer = drawLineFromPont(fromPoint: vertex, toPoint: baseLineEndPoint, color: mainColor, width: 1.0, alpha: 1.0)
         
         self.layer.addSublayer(baseLine)
-        self.layer.addSublayer(verticalLine)
-        self.layer.addSublayer(hypotenuse)
+        self.layer.addSublayer(lineFromStart)
+        self.layer.addSublayer(lineToEnd)
     }
     
     func drawLineFromPont(fromPoint: CGPoint, toPoint: CGPoint, color: UIColor, width: CGFloat, alpha: Float) -> CAShapeLayer {
