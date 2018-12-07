@@ -23,10 +23,30 @@ class ChartView: UIView {
     var greenVertex2 = CGPoint(x: 0.0, y: 0.0)
     var baseLineStartPoint = CGPoint(x: 0, y: 0)
     var baseLineEndPoint = CGPoint(x: 0, y: 0)
+    var firstNode = CGPoint(x: 0, y: 0)
+    var secondNode = CGPoint(x: 0, y: 0)
+    var thirdNode = CGPoint(x: 0, y: 0)
+    var fourthNode = CGPoint(x: 0, y: 0)
+    var fifthNode = CGPoint(x: 0, y: 0)
+    var sixthNode = CGPoint(x: 0, y: 0)
+    var seventhNode = CGPoint(x: 0, y: 0)
+    var eighthNode = CGPoint(x: 0, y: 0)
+    var ninthNode = CGPoint(x: 0, y: 0)
+    var tenthNode = CGPoint(x: 0, y: 0)
     
     func setUp() {
         baseLineStartPoint = CGPoint(x: 0, y: self.bounds.maxY / 2)
         baseLineEndPoint = CGPoint(x: self.bounds.maxX, y: self.bounds.maxY / 2)
+        firstNode.x = 0.0
+        secondNode.x = self.bounds.maxX * (1/9)
+        thirdNode.x = self.bounds.maxX * (2/9)
+        fourthNode.x = self.bounds.maxX * (3/9)
+        fifthNode.x = self.bounds.maxX * (4/9)
+        sixthNode.x = self.bounds.maxX * (5/9)
+        seventhNode.x = self.bounds.maxX * (6/9)
+        eighthNode.x = self.bounds.maxX * (7/9)
+        ninthNode.x = self.bounds.maxX * (8/9)
+        tenthNode.x = self.bounds.maxX * (9/9)
     }
     
     func initGestureRecognizers() {
@@ -173,14 +193,14 @@ class ChartView: UIView {
         if greenXPos1 < greenXPos2 {
             greenGraphPath.addLine(to: greenVertex1)
             greenGraphPath.addLine(to: greenVertex2)
-            print(getMiddleNode(by: greenVertex1, and: greenVertex2))
+            updateNodes(withVertex1: greenVertex1, vertex2: greenVertex2)
         } else if greenXPos1 > greenXPos2 {
             greenGraphPath.addLine(to: greenVertex2)
             greenGraphPath.addLine(to: greenVertex1)
-            print(getMiddleNode(by: greenVertex2, and: greenVertex1))
+            updateNodes(withVertex1: greenVertex2, vertex2: greenVertex1)
         } else {
             greenGraphPath.addLine(to: greenVertex1)
-            print(getMiddleNode(by: greenVertex1, and: greenVertex2))
+            updateNodes(withVertex1: greenVertex1, vertex2: greenVertex2)
         }
         greenGraphPath.addLine(to: baseLineEndPoint)
         greenGraphPath.close()
@@ -201,11 +221,24 @@ class ChartView: UIView {
         self.layer.addSublayer(greenGraphLayer)
     }
     
-    func getMiddleNode(by vertex1: CGPoint, and vertex2: CGPoint) -> CGPoint {
+    func updateNodes(withVertex1 vertex1: CGPoint, vertex2: CGPoint) {
+        firstNode = getNode(withXPos: firstNode.x, byVertex1: vertex1, vertex2: vertex2)
+        secondNode = getNode(withXPos: secondNode.x, byVertex1: vertex1, vertex2: vertex2)
+        thirdNode = getNode(withXPos: thirdNode.x, byVertex1: vertex1, vertex2: vertex2)
+        fourthNode = getNode(withXPos: fourthNode.x, byVertex1: vertex1, vertex2: vertex2)
+        fifthNode = getNode(withXPos: fifthNode.x, byVertex1: vertex1, vertex2: vertex2)
+        sixthNode = getNode(withXPos: sixthNode.x, byVertex1: vertex1, vertex2: vertex2)
+        seventhNode = getNode(withXPos: seventhNode.x, byVertex1: vertex1, vertex2: vertex2)
+        eighthNode = getNode(withXPos: eighthNode.x, byVertex1: vertex1, vertex2: vertex2)
+        ninthNode = getNode(withXPos: ninthNode.x, byVertex1: vertex1, vertex2: vertex2)
+        tenthNode = getNode(withXPos: tenthNode.x, byVertex1: vertex1, vertex2: vertex2)
+        print("Nodes:\n\(firstNode.y - 200)\n\(secondNode.y - 200)\n\(thirdNode.y - 200)\n\(fourthNode.y - 200)\n\(fifthNode.y - 200)\n\(sixthNode.y - 200)\n\(seventhNode.y - 200)\n\(eighthNode.y - 200)\n\(ninthNode.y - 200)\n\(tenthNode.y - 200)")
+    }
+    
+    func getNode(withXPos xPos: CGFloat, byVertex1 vertex1: CGPoint, vertex2: CGPoint) -> CGPoint {
         
-        let middleXPos = self.bounds.maxX / 2
-        let middleYPos = getYPos(byXPos: middleXPos, vertex1: vertex1, andVertex2: vertex2)
-        let node = CGPoint(x: middleXPos, y: middleYPos)
+        let yPos = getYPos(byXPos: xPos, vertex1: vertex1, andVertex2: vertex2)
+        let node = CGPoint(x: xPos, y: yPos)
         
         return node
     }
