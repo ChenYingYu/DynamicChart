@@ -12,6 +12,7 @@ class ChartView: UIView {
     
     let blueColor = UIColor.blue
     let yellowColor = UIColor.yellow
+    let greenColor = UIColor.green
     var blueXRatio: CGFloat = 0.3
     var blueYRatio: CGFloat = 0.7
     var yellowXRatio: CGFloat = 0.7
@@ -126,8 +127,41 @@ class ChartView: UIView {
         yellowGraphLayer.rasterizationScale = UIScreen.main.scale
         yellowGraphLayer.opacity = 0.3
         
+        // green triangle
+        let greenXPos1 = self.bounds.maxX * blueXRatio
+        let greenYPos1 = blueXPos > yellowXPos ? blueYPos + (yellowYPos - self.bounds.maxY / 2) * (self.bounds.maxX - greenXPos1) / (self.bounds.maxX - yellowXPos) : blueYPos + (yellowYPos - self.bounds.maxY / 2) * greenXPos1 / yellowXPos
+        let greenVertex1 = CGPoint(x: greenXPos1, y: greenYPos1)
+        let greenXPos2 = self.bounds.maxX * yellowXRatio
+        let greenYPos2 = yellowXPos > blueXPos ? yellowYPos + (blueYPos - self.bounds.maxY / 2) * (self.bounds.maxX - greenXPos2) / (self.bounds.maxX - blueXPos) : yellowYPos + (blueYPos - self.bounds.maxY / 2) * greenXPos2 / blueXPos
+        let greenVertex2 = CGPoint(x: greenXPos2, y: greenYPos2)
+        
+        let greenGraphPath = UIBezierPath()
+        greenGraphPath.move(to: baseLineStartPoint)
+        if greenXPos1 < greenXPos2 {
+            greenGraphPath.addLine(to: greenVertex1)
+            greenGraphPath.addLine(to: greenVertex2)
+        } else if greenXPos1 > greenXPos2 {
+            greenGraphPath.addLine(to: greenVertex2)
+            greenGraphPath.addLine(to: greenVertex1)
+        } else {
+            greenGraphPath.addLine(to: greenVertex1)
+        }
+        greenGraphPath.addLine(to: baseLineEndPoint)
+        greenGraphPath.close()
+        
+        // Shape fill color
+        let greenGraphLayer = CAShapeLayer()
+        greenGraphLayer.path = greenGraphPath.cgPath
+        greenGraphLayer.fillColor = greenColor.cgColor
+        greenGraphLayer.shouldRasterize = true
+        greenGraphLayer.rasterizationScale = UIScreen.main.scale
+        greenGraphLayer.opacity = 0.3
+        
         // two triangles
         self.layer.addSublayer(blueGraphLayer)
         self.layer.addSublayer(yellowGraphLayer)
+        
+        // third triangle
+        self.layer.addSublayer(greenGraphLayer)
     }
 }
