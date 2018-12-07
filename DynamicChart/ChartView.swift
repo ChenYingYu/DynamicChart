@@ -11,20 +11,25 @@ import UIKit
 class ChartView: UIView {
     
     let mainColor = UIColor.blue
-    let xRatio: CGFloat = 0.3
-    let yRatio: CGFloat = 0.7
+    var xRatio: CGFloat = 0.3
+    var yRatio: CGFloat = 0.7
     
     func drawChart() {
+        clearAll()
         drawLines()
         drawSteps()
     }
     
+    func clearAll() {
+        self.layer.sublayers?.removeAll()
+    }
+    
     func drawLines() {
         
-        let baseLineStartPoint = CGPoint(x: 0, y: self.bounds.maxY)
-        let baseLineEndPoint = CGPoint(x: self.bounds.maxX, y: self.bounds.maxY)
+        let baseLineStartPoint = CGPoint(x: 0, y: self.bounds.maxY / 2)
+        let baseLineEndPoint = CGPoint(x: self.bounds.maxX, y: self.bounds.maxY / 2)
         let xPos = self.bounds.maxX * xRatio
-        let yPos = self.bounds.maxY * (1 - yRatio)
+        let yPos = self.bounds.maxY / 2 * (1 - yRatio)
         let vertex = CGPoint(x: xPos, y: yPos)
         
         let baseLine: CAShapeLayer = drawLineFromPont(fromPoint: baseLineStartPoint, toPoint: baseLineEndPoint, color: mainColor, width: 1.0, alpha: 1.0)
@@ -59,10 +64,10 @@ class ChartView: UIView {
     
     func drawSteps() {
         
-        let baseLineStartPoint = CGPoint(x: 0, y: self.bounds.maxY)
-        let baseLineEndPoint = CGPoint(x: self.bounds.maxX, y: self.bounds.maxY)
+        let baseLineStartPoint = CGPoint(x: 0, y: self.bounds.maxY / 2)
+        let baseLineEndPoint = CGPoint(x: self.bounds.maxX, y: self.bounds.maxY / 2)
         let xPos = self.bounds.maxX * xRatio
-        let yPos = self.bounds.maxY * (1 - yRatio)
+        let yPos = self.bounds.maxY / 2 * (1 - yRatio)
         let vertex = CGPoint(x: xPos, y: yPos)
         
         let graphPath = UIBezierPath()
