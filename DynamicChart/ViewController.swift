@@ -19,6 +19,23 @@ class ViewController: UIViewController {
     @IBOutlet weak var yellowButtonLeft: UIButton!
     @IBOutlet weak var yellowButtonRight: UIButton!
     @IBOutlet weak var yellowButtonDown: UIButton!
+    @IBOutlet weak var colorControl: UISegmentedControl!
+    @IBAction func colorChanged(_ sender: UISegmentedControl) {
+        switch colorControl.selectedSegmentIndex {
+        case 0:
+            colorControl.tintColor = UIColor.blue
+            chartView.controlBlue = true
+            chartView.controlYellow = false
+            break
+        case 1:
+            colorControl.tintColor = UIColor.yellow
+            chartView.controlBlue = false
+            chartView.controlYellow = true
+            break
+        default:
+            break
+        }
+    }
     
     @IBAction func buttonPressed(_ sender: UIButton) {
         switch sender {
@@ -60,6 +77,7 @@ class ViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        chartView.initGestureRecognizers()
         chartView.drawChart()
     }
 }

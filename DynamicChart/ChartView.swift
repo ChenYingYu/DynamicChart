@@ -17,6 +17,30 @@ class ChartView: UIView {
     var blueYRatio: CGFloat = 0.7
     var yellowXRatio: CGFloat = 0.7
     var yellowYRatio: CGFloat = -0.7
+    var controlBlue: Bool = true
+    var controlYellow: Bool = false
+    
+    func initGestureRecognizers() {
+        let panGR = UIPanGestureRecognizer(target: self, action: #selector(didPan(panGR:)))
+        self.addGestureRecognizer(panGR)
+    }
+    
+    @objc func didPan(panGR: UIPanGestureRecognizer) {
+        
+        let translation = panGR.translation(in: self)
+        
+        if controlBlue {
+            blueXRatio += translation.x / 100
+            blueYRatio -= translation.y / 100
+        } else if controlYellow {
+            yellowXRatio += translation.x / 100
+            yellowYRatio -= translation.y / 100
+        }
+        
+        panGR.setTranslation(CGPoint.zero, in: self)
+        
+        drawChart()
+    }
     
     func drawChart() {
         clearAll()
