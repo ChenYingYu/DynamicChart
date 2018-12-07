@@ -11,23 +11,40 @@ import UIKit
 class ViewController: UIViewController {
     
     @IBOutlet weak var chartView: ChartView!
-    @IBOutlet weak var buttonUp: UIButton!
-    @IBOutlet weak var buttonLeft: UIButton!
-    @IBOutlet weak var buttonRight: UIButton!
-    @IBOutlet weak var buttonDown: UIButton!
+    @IBOutlet weak var blueButtonUp: UIButton!
+    @IBOutlet weak var blueButtonLeft: UIButton!
+    @IBOutlet weak var blueButtonRight: UIButton!
+    @IBOutlet weak var blueButtonDown: UIButton!
+    @IBOutlet weak var yellowButtonUp: UIButton!
+    @IBOutlet weak var yellowButtonLeft: UIButton!
+    @IBOutlet weak var yellowButtonRight: UIButton!
+    @IBOutlet weak var yellowButtonDown: UIButton!
+    
     @IBAction func buttonPressed(_ sender: UIButton) {
         switch sender {
-        case buttonUp:
-            chartView.yRatio += 0.1
+        case blueButtonUp:
+            chartView.blueYRatio += 0.1
             break
-        case buttonDown:
-            chartView.yRatio -= 0.1
+        case blueButtonDown:
+            chartView.blueYRatio -= 0.1
             break
-        case buttonLeft:
-            chartView.xRatio -= 0.1
+        case blueButtonLeft:
+            chartView.blueXRatio -= 0.1
             break
-        case buttonRight:
-            chartView.xRatio += 0.1
+        case blueButtonRight:
+            chartView.blueXRatio += 0.1
+            break
+        case yellowButtonUp:
+            chartView.yellowYRatio += 0.1
+            break
+        case yellowButtonDown:
+            chartView.yellowYRatio -= 0.1
+            break
+        case yellowButtonLeft:
+            chartView.yellowXRatio -= 0.1
+            break
+        case yellowButtonRight:
+            chartView.yellowXRatio += 0.1
             break
         default:
             break

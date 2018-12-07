@@ -10,9 +10,12 @@ import UIKit
 
 class ChartView: UIView {
     
-    let mainColor = UIColor.blue
-    var xRatio: CGFloat = 0.3
-    var yRatio: CGFloat = 0.7
+    let blueColor = UIColor.blue
+    let yellowColor = UIColor.yellow
+    var blueXRatio: CGFloat = 0.3
+    var blueYRatio: CGFloat = 0.7
+    var yellowXRatio: CGFloat = 0.7
+    var yellowYRatio: CGFloat = -0.7
     
     func drawChart() {
         clearAll()
@@ -28,19 +31,37 @@ class ChartView: UIView {
         
         let baseLineStartPoint = CGPoint(x: 0, y: self.bounds.maxY / 2)
         let baseLineEndPoint = CGPoint(x: self.bounds.maxX, y: self.bounds.maxY / 2)
-        let xPos = self.bounds.maxX * xRatio
-        let yPos = self.bounds.maxY / 2 * (1 - yRatio)
-        let vertex = CGPoint(x: xPos, y: yPos)
         
-        let baseLine: CAShapeLayer = drawLineFromPont(fromPoint: baseLineStartPoint, toPoint: baseLineEndPoint, color: mainColor, width: 1.0, alpha: 1.0)
+        // blue triangle
+        let blueXPos = self.bounds.maxX * blueXRatio
+        let blueYPos = self.bounds.maxY / 2 * (1 - blueYRatio)
+        let blueVertex = CGPoint(x: blueXPos, y: blueYPos)
         
-        let lineFromStart: CAShapeLayer = drawLineFromPont(fromPoint: baseLineStartPoint, toPoint: vertex, color: mainColor, width: 1.0, alpha: 1.0)
+        let blueBaseLine: CAShapeLayer = drawLineFromPont(fromPoint: baseLineStartPoint, toPoint: baseLineEndPoint, color: blueColor, width: 1.0, alpha: 1.0)
         
-        let lineToEnd: CAShapeLayer = drawLineFromPont(fromPoint: vertex, toPoint: baseLineEndPoint, color: mainColor, width: 1.0, alpha: 1.0)
+        let blueLineFromStart: CAShapeLayer = drawLineFromPont(fromPoint: baseLineStartPoint, toPoint: blueVertex, color: blueColor, width: 1.0, alpha: 1.0)
         
-        self.layer.addSublayer(baseLine)
-        self.layer.addSublayer(lineFromStart)
-        self.layer.addSublayer(lineToEnd)
+        let blueLineToEnd: CAShapeLayer = drawLineFromPont(fromPoint: blueVertex, toPoint: baseLineEndPoint, color: blueColor, width: 1.0, alpha: 1.0)
+        
+        // yellow triangle
+        
+        let yellowXPos = self.bounds.maxX * yellowXRatio
+        let yellowYPos = self.bounds.maxY / 2 * (1 - yellowYRatio)
+        let yellowVertex = CGPoint(x: yellowXPos, y: yellowYPos)
+        
+        let yellowBaseLine: CAShapeLayer = drawLineFromPont(fromPoint: baseLineStartPoint, toPoint: baseLineEndPoint, color: yellowColor, width: 1.0, alpha: 1.0)
+        
+        let yellowLineFromStart: CAShapeLayer = drawLineFromPont(fromPoint: baseLineStartPoint, toPoint: yellowVertex, color: yellowColor, width: 1.0, alpha: 1.0)
+        
+        let yellowLineToEnd: CAShapeLayer = drawLineFromPont(fromPoint: yellowVertex, toPoint: baseLineEndPoint, color: yellowColor, width: 1.0, alpha: 1.0)
+        
+        // add two tiangles
+        self.layer.addSublayer(blueBaseLine)
+        self.layer.addSublayer(blueLineFromStart)
+        self.layer.addSublayer(blueLineToEnd)
+        self.layer.addSublayer(yellowBaseLine)
+        self.layer.addSublayer(yellowLineFromStart)
+        self.layer.addSublayer(yellowLineToEnd)
     }
     
     func drawLineFromPont(fromPoint: CGPoint, toPoint: CGPoint, color: UIColor, width: CGFloat, alpha: Float) -> CAShapeLayer {
@@ -66,24 +87,47 @@ class ChartView: UIView {
         
         let baseLineStartPoint = CGPoint(x: 0, y: self.bounds.maxY / 2)
         let baseLineEndPoint = CGPoint(x: self.bounds.maxX, y: self.bounds.maxY / 2)
-        let xPos = self.bounds.maxX * xRatio
-        let yPos = self.bounds.maxY / 2 * (1 - yRatio)
-        let vertex = CGPoint(x: xPos, y: yPos)
         
-        let graphPath = UIBezierPath()
-        graphPath.move(to: baseLineStartPoint)
-        graphPath.addLine(to: vertex)
-        graphPath.addLine(to: baseLineEndPoint)
-        graphPath.close()
+        // blue triangle
+        let blueXPos = self.bounds.maxX * blueXRatio
+        let blueYPos = self.bounds.maxY / 2 * (1 - blueYRatio)
+        let blueVertex = CGPoint(x: blueXPos, y: blueYPos)
+        
+        let blueGraphPath = UIBezierPath()
+        blueGraphPath.move(to: baseLineStartPoint)
+        blueGraphPath.addLine(to: blueVertex)
+        blueGraphPath.addLine(to: baseLineEndPoint)
+        blueGraphPath.close()
         
         // Shape fill color
-        let graphLayer = CAShapeLayer()
-        graphLayer.path = graphPath.cgPath
-        graphLayer.fillColor = mainColor.cgColor
-        graphLayer.shouldRasterize = true
-        graphLayer.rasterizationScale = UIScreen.main.scale
-        graphLayer.opacity = 0.3
+        let blueGraphLayer = CAShapeLayer()
+        blueGraphLayer.path = blueGraphPath.cgPath
+        blueGraphLayer.fillColor = blueColor.cgColor
+        blueGraphLayer.shouldRasterize = true
+        blueGraphLayer.rasterizationScale = UIScreen.main.scale
+        blueGraphLayer.opacity = 0.3
         
-        self.layer.addSublayer(graphLayer)
+        // yellow triangle
+        let yellowXPos = self.bounds.maxX * yellowXRatio
+        let yellowYPos = self.bounds.maxY / 2 * (1 - yellowYRatio)
+        let yellowVertex = CGPoint(x: yellowXPos, y: yellowYPos)
+        
+        let yellowGraphPath = UIBezierPath()
+        yellowGraphPath.move(to: baseLineStartPoint)
+        yellowGraphPath.addLine(to: yellowVertex)
+        yellowGraphPath.addLine(to: baseLineEndPoint)
+        yellowGraphPath.close()
+        
+        // Shape fill color
+        let yellowGraphLayer = CAShapeLayer()
+        yellowGraphLayer.path = yellowGraphPath.cgPath
+        yellowGraphLayer.fillColor = yellowColor.cgColor
+        yellowGraphLayer.shouldRasterize = true
+        yellowGraphLayer.rasterizationScale = UIScreen.main.scale
+        yellowGraphLayer.opacity = 0.3
+        
+        // two triangles
+        self.layer.addSublayer(blueGraphLayer)
+        self.layer.addSublayer(yellowGraphLayer)
     }
 }
