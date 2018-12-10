@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol ChartDelegate: class {
+    func updateValue(ofNodes nodes: [CGPoint])
+}
+
 class ChartView: UIView {
     
     let blueColor = UIColor.blue
@@ -33,6 +37,7 @@ class ChartView: UIView {
     var eighthNode = CGPoint(x: 0, y: 0)
     var ninthNode = CGPoint(x: 0, y: 0)
     var tenthNode = CGPoint(x: 0, y: 0)
+    weak var chartDelegate: ChartDelegate?
     
     func setUp() {
         baseLineStartPoint = CGPoint(x: 0, y: self.bounds.maxY / 2)
@@ -232,6 +237,8 @@ class ChartView: UIView {
         eighthNode = getNode(withXPos: eighthNode.x, byVertex1: vertex1, vertex2: vertex2)
         ninthNode = getNode(withXPos: ninthNode.x, byVertex1: vertex1, vertex2: vertex2)
         tenthNode = getNode(withXPos: tenthNode.x, byVertex1: vertex1, vertex2: vertex2)
+        let nodes = [firstNode, secondNode, thirdNode, fourthNode, fifthNode, sixthNode, seventhNode, eighthNode, ninthNode, tenthNode]
+        self.chartDelegate?.updateValue(ofNodes: nodes)
         print("Nodes:\n\(firstNode.y - 200)\n\(secondNode.y - 200)\n\(thirdNode.y - 200)\n\(fourthNode.y - 200)\n\(fifthNode.y - 200)\n\(sixthNode.y - 200)\n\(seventhNode.y - 200)\n\(eighthNode.y - 200)\n\(ninthNode.y - 200)\n\(tenthNode.y - 200)")
     }
     

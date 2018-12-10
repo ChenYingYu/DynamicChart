@@ -10,6 +10,8 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    var labels = [UILabel]()
+    
     @IBOutlet weak var chartView: ChartView!
     @IBOutlet weak var blueButtonUp: UIButton!
     @IBOutlet weak var blueButtonLeft: UIButton!
@@ -20,6 +22,17 @@ class ViewController: UIViewController {
     @IBOutlet weak var yellowButtonRight: UIButton!
     @IBOutlet weak var yellowButtonDown: UIButton!
     @IBOutlet weak var colorControl: UISegmentedControl!
+    @IBOutlet weak var firstNodeLabel: UILabel!
+    @IBOutlet weak var secondNodeLabel: UILabel!
+    @IBOutlet weak var thirdNodeLabel: UILabel!
+    @IBOutlet weak var fourthNodeLabel: UILabel!
+    @IBOutlet weak var fifthNodeLabel: UILabel!
+    @IBOutlet weak var sixthNodeLabel: UILabel!
+    @IBOutlet weak var seventhNodeLabel: UILabel!
+    @IBOutlet weak var eighthNodeLabel: UILabel!
+    @IBOutlet weak var ninthNodeLabel: UILabel!
+    @IBOutlet weak var tenthNodeLabel: UILabel!
+    
     @IBAction func colorChanged(_ sender: UISegmentedControl) {
         switch colorControl.selectedSegmentIndex {
         case 0:
@@ -72,6 +85,9 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setUpLabels()
+        chartView.chartDelegate = self
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -81,5 +97,18 @@ class ViewController: UIViewController {
         chartView.initGestureRecognizers()
         chartView.drawChart()
     }
+    
+    func setUpLabels() {
+        labels = [firstNodeLabel, secondNodeLabel, thirdNodeLabel, fourthNodeLabel, fifthNodeLabel, sixthNodeLabel, seventhNodeLabel, eighthNodeLabel, ninthNodeLabel, tenthNodeLabel]
+    }
 }
 
+extension ViewController: ChartDelegate {
+    func updateValue(ofNodes nodes: [CGPoint]) {
+        if nodes.count >= 10, labels.count >= 10 {
+            for index in labels.indices {
+                labels[index].text = String(format: "%.1f", Float((-nodes[index].y + 200) * 0.06))
+            }
+        }
+    }
+}
